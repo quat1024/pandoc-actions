@@ -6,7 +6,6 @@ inputs:
     description: 'The version of pandoc to be installed.'
     required: false
 
-
 runs:
   using: 'composite'
   steps:
@@ -65,8 +64,7 @@ runs:
       run: |
         case $RUNNER_OS in
             ("Linux")
-                sudo debconf-set man-db/auto-update false
-                sudo rm /var/lib/man-db/auto-update
+                echo "set man-db/auto-update false" | debconf-communicate; dpkg-reconfigure man-db
                 sudo apt-get install ./$INSTALLER
                 ;;
             ("macOS")
